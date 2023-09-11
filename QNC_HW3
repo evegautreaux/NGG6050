@@ -1,0 +1,283 @@
+QNC HW3: Binomial Distribution
+    % In a given trial, the probability that x quanta will be released (px) 
+    % is given by the binomial term, substitute x for k.
+
+% EXERCISE 1:
+% Assume that there are 10 quanta available in a nerve terminal, and 
+% for a given release event each is released with a probability of 0.2. 
+% For one such event, what is the probability that 0, 1, 2, 3, 4, 5, 6, 
+% 7, 8, 9, or 10 quanta will be released?
+
+    % Use the binomial probability equation: 
+    % P(X = k) = C(n, k) * (p^k) * (q^(n - k))
+
+    % n = total # of quanta available = 10
+    % k = number of quanta released = range 0-10
+    % The probability of success (p) (releasing one quantum) for each trial is
+    % given as 0.2
+    % The probability of failure (q) (not releasing one quantum) for each trial 
+    % is 1 - p = 1 - 0.2 = 0.8
+
+    % P(X = k) is the probability of getting exactly "k" quanta released
+    % C(n, k) is the binomial coefficient, representing the # of ways to choose
+    % "k" successes from "n" trials
+    % p is the probability of success
+    % q is the probability of failure
+
+% Calculate the probability for each value of "k", each possible outcome. 
+    % These probabilities should sum up to equal 1.
+
+n = 10
+k = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+p = 0.2
+q = 1 - p
+
+% Compute binomial coefficient for each value of k
+    % C(n, k) = n! / (k! * (n-k)!)
+
+bcoef = (factorial(n)) ./ ((factorial(k)) .* (factorial(n-k))) 
+
+% Now plug in to the binomial probability equation: 
+    % P(X = k) = C(n, k) * (p^k) * (q^(n - k))
+
+prob = bcoef .* (p.^k) .* (q.^(n-k))
+
+% Exercise 2:
+% A nerve terminal contains 14 quanta available for release. 
+% Release probability of these quanta is low, = 0.1 
+
+% To assess whether this value is reasonable, you run an experiment: 
+% activate the nerve and measure the number of quanta that are released. 
+% The result is 8 quanta.
+
+% What is the probability that you would get this result (8 quanta)
+% if the true probability of release really was 0.1?
+% What about for each decile of release probability (0.1, 0.2, ... 1.0)?
+
+% Which value of release probability did you determine to be the most
+% probable, given your measurement?
+
+
+    % Use the binomial probability equation: 
+    % P(X = k) = C(n, k) * (p^k) * (q^(n - k))
+
+    % n = total # of quanta available = 14
+    % k = number of quanta released = 8
+    % The probability of success (p) (releasing one quantum) for each trial is
+    % given as 0.1 ... 1.0
+    % The probability of failure (q) (not releasing one quantum) for each trial 
+    % is 1 - p
+    
+    % P(X = k) is the probability of getting exactly "k" quanta released
+
+% Calculate the binomial probability for each value of "p", each possible 
+% release probability.
+    % These probabilities are NOT expected to sum up to equal 1 because this is
+    % a likelihood function, which describes how the value of conditional
+    % probability changes when you hold your data fixed to the values you
+    % measured while varying the values of the parameters. The maximum value of
+    % this function is called the maximum likelihood.
+
+n_2 = 14
+k_2 = 8
+p_2 = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+q_2 = 1 - p_2 
+
+% Calculate the binomial coefficient, C(n, k) to plug into the binomial
+% probability equation.
+bcoef_2 = (factorial(n_2)) ./ ((factorial(k_2)) .* (factorial(n_2-k_2))) 
+
+% Now plug in to the binomial probability equation
+prob_2 = bcoef_2 .* (p_2.^k_2) .* (q_2.^(n_2-k_2))
+
+% The probability of 8 quanta being released when the release
+% probability = 
+% 0.1 is 0%  
+% 0.2 is .2%
+% 0.3 is 2%
+% 0.4 is 9%
+% 0.5 is 18%
+% 0.6 is 20%
+% 0.7 is 12% 
+% 0.8 is 3%
+% 0.9 is .1%
+% 1.0 is 0%
+
+% The most probable release probability for releasing 8 quanta is 0.6
+
+
+% Exercise 3:
+% You repeat the experiment under identical conditions.
+% You measure that 5 quanta were released.
+    % Your sample size has now doubled, to two measurements.
+    % You want to take both measurements into account when assessing
+    % likelihoods of different release probabilities. 
+    % To do so: assume the two measurements are independent. Therefore, the
+    % total likelihood is simply the product of the likelihoods associated with
+    % with each separate measurement. It's also typical to compute the log of
+    % each likelihood and take their sum, often more convenient.
+
+% What are the values of the total likelihood and total log-likelihood if
+% we assume the true release probability is 0.1?
+
+% Previously calculated that the likelihood of 8 quanta released at 0.1 
+% release probability was 0
+sample1_likelihood = 0
+
+% Now compute the likelihood for sample 2, 5 quanta released at
+% 0.1 release probability using the binomial probability equation
+k_3 = 5
+
+% Calculate the binomial coefficient to plug in after
+bcoef_3 = (factorial(n_2)) ./ ((factorial(k_3)) .* (factorial(n_2-k_3))) 
+
+% Now plug in to binomial probability equation
+prob_3 = bcoef_3 .* (p_2.^k_3) .* (q_2.^(n_2-k_3))
+
+sample2_likelihood = 0.0078
+
+% Now calculate total likelihood by multiplying the two samples'
+% likelihoods together
+total_likelihood = sample1_likelihood * sample2_likelihood
+
+% Now calculate the total log-likelihood
+total_log_likelihood = log10(sample1_likelihood) + log10(sample2_likelihood)
+
+
+
+% Compare to values for other possible release probabilities for each
+% sample and determine which value of release probability is most likely,
+% given the data. 
+% Compute the full likelihood and log-likelihood for release probabilities
+% deciles 0-1. What is the maximum value?
+
+% Compute full likelihood
+full_likelihood = prob_2 .* prob_3
+
+% Compute log-likelihood 
+full_log_likelihood = log10(prob_2) + log10(prob_3)
+
+% The maximum value for the full likelihood is .0224 and for full log
+% likelihood it is -1.6498
+
+% Compute functions at higher resolution by change release probability
+% range from deciles to resolution of .01
+
+step = 0.01
+p_3 = 0:step:1
+q_3 = 1-p_3
+
+% compute binomial probability for both samples
+prob_4 = bcoef_2 .* (p_3.^k_2) .* (q_3.^(n_2-k_2))
+prob_5 = bcoef_3 .* (p_3.^k_2) .* (q_3.^(n_2-k_2)) 
+
+% compute product likelihood and log likelihood
+likelihood_highres = prob_4 .* prob_5
+log_likelihood_highres = log10(prob_4) + log10(prob_5)
+
+% Increase sample size
+n_3 = [20, 30, 40, 50, 100, 250, 500, 1000, 5000, 10000] %this didn't work idk why
+n50 = 50
+n25 = 25
+        % Ignore code below, it did not work, kept for troubleshooting
+        % later
+            % Initialize arrays to store likelihoods for each value of n_3 for sample 1
+            likelihood_inc_sample1 = zeros(size(n_3));
+            
+            % Calculate likelihood for each value of n_3
+            for i = 1:length(n_3)
+                % Calculate binomial coefficient for sample 1 with n_3 quanta
+                bcoef_samp1 = (factorial(n_3)) ./ ((factorial(k_2)) .* (factorial(n_3 - k_2)));
+            
+                % Calculate likelihood for sample 1 at each p_2 value using element-wise operators
+               likelihood_inc_sample1(i) = bcoef_samp1 .* (p_2(i).^k_2) .* (q_2(i).^(n_3 - k_2));
+            end
+
+% Calculate binomial coefficient for sample 1 likelihoods at n = 50
+    bcoef_samp1_n50 = (factorial(n50)) ./ ((factorial(k_2)) .* (factorial(n50 - k_2)))
+
+    % Calculate likelihood for sample 1 at n = 50
+    likelihood_n50 = bcoef_samp1_n50 .* (p_2.^k_2) .* (q_2.^(n50 - k_2))
+
+
+% Calculate binomial coefficient for sample 1 likelihoods at n = 25
+    bcoef_samp1_n25 = (factorial(n25)) ./ ((factorial(k_2)) .* (factorial(n25 - k_2)))
+
+    % Calculate likelihood for sample 1 at n = 25
+    likelihood_n25 = bcoef_samp1_n25 .* (p_2.^k_2) .* (q_2.^(n25 - k_2))
+
+
+% Exercise 4
+% You conduct 100 separate experiments and end up with the data defined
+% below.
+% What is the most likely value of p (p-hat, the maximum likelihood
+% estimate of a paramter in the population) given the sample?
+
+% Define observed data
+k_values =        [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]; % Values of k
+observed_counts = [0, 0, 3, 10, 19, 26, 16, 16, 5, 5, 0, 0, 0, 0]; % Number of instances for each value of k
+
+% Define a range of p values
+p_range = 0:0.01:1;
+
+% Initialize variables to store maximum likelihood estimates
+best_p_values = zeros(size(k_values));
+
+% Calculate the maximum likelihood estimate for each value of k
+for i = 1:length(k_values)
+    k = k_values(i);
+    counts = observed_counts(i);
+    
+    % Define a function to calculate the negative log likelihood
+    negative_log_likelihood = @(p) -counts * log(binopdf(k, n, p));
+    
+    % Find the p value that maximizes the likelihood
+    best_p = fminbnd(negative_log_likelihood, 0, 1); % Assuming p is between 0 and 1
+    best_p_values(i) = best_p;
+end
+
+% best_p_values now contains the most likely release probability for each value of k
+
+% Exercise 5
+% You have determined that the true release probability is 0.3 and will
+% test whether changing the temperature affects release probability.
+% You measure 7 quantal events for the same 14 available quanta.
+% Compute p-hat.
+
+    % p-hat is the same as the binomial probability/likelihood?
+    % Calculate binomial coefficient
+    k_4 = 7
+    p_4 = 0.3
+    q_4 = 1 - p_4
+    bcoef_4 = (factorial(n_2)) ./ ((factorial(k_4)) .* (factorial(n_2 - k_4)))
+   
+    % Plug in and calculate binomial probability
+    p_hat = bcoef_4 .* (p_4.^k_4) .* (q_4.^(n_2 - k_4))
+
+% What is the probability that you would have obtained that measurement
+% given a null hypothesis of no effect (an unchanged value of the true 
+% release probability, its value remained at 0.3 even with temp change)?
+disp(p_hat)
+
+% What is the probability that you would have gotten that measurement if
+% your null were true?
+
+% Rationale: if p_hat represents the likelihood of 7 quantal events out of
+% 14 available quanta when the release probability is 0.3, then this is
+% simply the probability of that occurring, it doesn't change with the
+% hypothesis?
+disp(p_hat)
+
+
+% I can conclude that temperature had an effect on release probability.
+
+% RATIONALE: The original release probability is 0.3. Temperature is then
+% adjusted and quantal events are recorded, in which 7 quantal events were
+% measured out of 14 available quanta. The binomial probability equation
+% tells us that the likelihood of 7/14 quanta being released when the
+% release probability is .3 is very unlikely, only 6.18% likelihood.
+% Therefore, it is unlikely that the release probability was 0.3 at the
+% time of measurement/after temperature was adjusted. Therefore, because it
+% is unlikely that this would occur at 0.3 release probability, we can
+% conclude that it IS likely that the release probability was NOT 0.3,
+% implying that release probability changed following a temperature change.
